@@ -36,7 +36,7 @@ def LoadDevicesFromCSV(Location):
 	return Devices
 
 def FindButton(button, udid):
-	SavedFile = str(udid) + str(random.randint(99,9999999999)) + '.xml'
+	SavedFile = str(udid[:-5]) + str(random.randint(99,9999999999)) + '.xml'
 	Command = "sudo adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {}".format(str(udid), str(udid), SavedFile)
 	os.system(Command)
 	xmldoc = minidom.parse(SavedFile)
@@ -63,16 +63,20 @@ def FindButton(button, udid):
 def StartApplication(udid):
 	print('start application')
 	while True:
-		ResetCheck = 0
-		time.sleep(random.randint(1,60) + 5)
-		os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
-		time.sleep(random.randint(30,120) + 30)
-		while ResetCheck < (100 * len(ButtonsToClick)):
-			for button in ButtonsToClick:
-				os.system(FindButton(button, udid))
-				time.sleep(random.randint(5,15) + 20)
-				ResetCheck = ResetCheck + 1
-		time.sleep(random.randint(120, 480))
+		try:
+			ResetCheck = 0
+			time.sleep(random.randint(1,60) + 5)
+			os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
+			time.sleep(random.randint(30,120) + 30)
+			while ResetCheck < (100 * len(ButtonsToClick)):
+				for button in ButtonsToClick:
+					os.system(FindButton(button, udid))
+					time.sleep(random.randint(5,15) + 20)
+					ResetCheck = ResetCheck + 1
+			time.sleep(random.randint(120, 480))
+		except:
+			print('error')
+			time.sleep(random.randint(1200, 2000))
 
 KillADB()
 DeviceList = LoadDevicesFromCSV('main.csv')
