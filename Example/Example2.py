@@ -26,8 +26,8 @@ def LoadDevicesFromCSV(Location):
 	for IP in IPs:
 		Connected = False
 		if 'unable' not in os.popen('sudo adb connect ' + str(IP)).read():
-	    	os.system('sudo adb -s ' + str(IP) + ' shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0')
-	    	os.system('sudo adb -s ' + str(IP)  + ' shell settings put system screen_brightness 0')
+			os.system('sudo adb -s ' + str(IP) + ' shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0')
+			os.system('sudo adb -s ' + str(IP)  + ' shell settings put system screen_brightness 0')
 			Devices.append(str(IP) + ':5555')
 			Connected = True
 		if Connected == False:
@@ -76,5 +76,5 @@ KillADB()
 DeviceList = LoadDevicesFromCSV('main.csv')
 threads = [threading.Thread(target=StartApplication, args=(udid,)) for udid in DeviceList]
 for thread in threads:
-    thread.start()
+	thread.start()
 
