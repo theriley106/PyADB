@@ -30,6 +30,7 @@ def LoadDevicesFromCSV(Location):
 			os.system('sudo adb -s ' + str(IP)  + ' shell settings put system screen_brightness 0')
 			Devices.append(str(IP) + ':5555')
 			Connected = True
+			print(str(IP) + ' Connected')
 		if Connected == False:
 			print(str(IP) + ' Not Connected')
 	return Devices
@@ -60,6 +61,7 @@ def FindButton(button, udid):
 	return Command
 
 def StartApplication(udid):
+	print('start application')
 	while True:
 		ResetCheck = 0
 		time.sleep(random.randint(1,60) + 5)
