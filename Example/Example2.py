@@ -16,6 +16,7 @@ def TakeScreenshot(udid):
 	screenshot = str(udid) + '.png'
 	Command = "sudo adb -s " + str(udid) + " shell screencap -p | sed 's/\r$//' > " + screenshot
 	os.system(str(Command))
+	return screenshot
 def LoadDevicesFromCSV(Location):
 	RawCSV = open(Location, 'r')
 	RawDeviceList = csv.reader(RawCSV)
@@ -65,6 +66,7 @@ def FindButton(button, udid):
 
 def StartApplication(udid):
 	print('start application')
+	Size = 0
 	while True:
 		try:
 			ResetCheck = 0
@@ -72,19 +74,28 @@ def StartApplication(udid):
 			os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
 			time.sleep(random.randint(30,120) + 30)
 			while ResetCheck < (100 * len(ButtonsToClick)):
-				for button in ButtonsToClick:
-                                        command = FindButton(button, udid)
-                                        os.system(command)
-					if str(button) == "android:id/button1" and 'input tap' in str(command):
-                                            time.sleep(random.randint(12, 45))
-                                            os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
-                                            time.sleep(random.randint(30,80))
-                                        if str(button) == 'com.android.launcher:id/launcher' and 'input tap' in str(command):
-                                            time.sleep(random.randint(12, 45))
-                                            os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
-                                            time.sleep(random.randint(30,80))
-					time.sleep(random.randint(5,15) + 20)
-					ResetCheck = ResetCheck + 1
+				Size1 = os.path.getsize(TakeScreenshot(udid))
+				if abs(Size1 - Size) < 5000:
+					time.sleep(180)
+					Size2 = os.path.getsize(TakeScreenshot(udid))
+					if abs(Size2 - Size) < 5000:
+						os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
+						time.sleep(30)
+				Size = Size1
+				for i in range(5):
+					for button in ButtonsToClick:
+	                    command = FindButton(button, udid)
+	                    os.system(command)
+						if str(button) == "android:id/button1" and 'input tap' in str(command):
+	                        time.sleep(random.randint(12, 45))
+	                        os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
+	                        time.sleep(random.randint(30,80))
+	                    if str(button) == 'com.android.launcher:id/launcher' and 'input tap' in str(command):
+	                        time.sleep(random.randint(12, 45))
+	                        os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
+	                        time.sleep(random.randint(30,80))
+						time.sleep(random.randint(5,15) + 20)
+						ResetCheck = ResetCheck + 1
 			time.sleep(random.randint(120, 480))
 		except BaseException as exp:
 			print('error' + str(exp))
