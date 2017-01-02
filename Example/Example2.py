@@ -84,19 +84,19 @@ def StartApplication(udid):
 				Size = Size1
 				for i in range(5):
 					for button in ButtonsToClick:
-	                    command = FindButton(button, udid)
-	                    os.system(command)
-						if str(button) == "android:id/button1" and 'input tap' in str(command):
-	                        time.sleep(random.randint(12, 45))
-	                        os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
-	                        time.sleep(random.randint(30,80))
-	                    if str(button) == 'com.android.launcher:id/launcher' and 'input tap' in str(command):
-	                        time.sleep(random.randint(12, 45))
-	                        os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
-	                        time.sleep(random.randint(30,80))
-						time.sleep(random.randint(5,15) + 20)
-						ResetCheck = ResetCheck + 1
-			time.sleep(random.randint(120, 480))
+                                            command = FindButton(button, udid)
+                                            os.system(command)
+                                            if str(button) == "android:id/button1" and 'input tap' in str(command):
+                                                time.sleep(random.randint(12, 45))
+                                                os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
+                                                time.sleep(random.randint(30,80))
+                                            if str(button) == 'com.android.launcher:id/launcher' and 'input tap' in str(command):
+                                                time.sleep(random.randint(12, 45))
+                                                os.system('sudo adb -s ' + udid + " shell monkey -p com.checkpoints.app -c android.intent.category.LAUNCHER 1")
+                                                time.sleep(random.randint(30,80))
+                                            time.sleep(random.randint(5,15) + 20)
+                                            ResetCheck = ResetCheck + 1
+                        time.sleep(random.randint(120, 480))
 		except BaseException as exp:
 			print('error' + str(exp))
 			time.sleep(random.randint(1200, 2000))
