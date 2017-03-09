@@ -152,6 +152,7 @@ def ShowTouches(udid):
 			print('clicked pointer location')
 	
 def CheckWifiConnection(udid=None):
+	a = []
 	def Command(udid):
 		Connected = False
 		runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
@@ -162,6 +163,7 @@ def CheckWifiConnection(udid=None):
 				Connected = True
 		if Connected == False:
 			print('{} not currently connected a wifi network'.format(udid))
+			a.append(udid)
 		return Connected
 
 	if udid != None:
@@ -173,6 +175,7 @@ def CheckWifiConnection(udid=None):
 			thread.start()
 		for thread in threads:
 			thread.join()
+	print('{} devices not connected'.format(len(a)))
 
 def RemoveUSBBlock(udid):
 	runCommand('adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
