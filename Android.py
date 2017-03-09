@@ -160,10 +160,13 @@ def CheckWifiConnection(udid=None):
 			if "Connected" in str(lis[i]):
 				print('{} is connected to: {}'.format(udid, lis[i-1][2]))
 				Connected = True
+		if Connected == False:
+			print('{} not currently connected a wifi network'.format(udid))
 		return Connected
 
 	if udid != None:
-		Command(udid)
+		result = Command(udid)
+		return result
 	else:
 		threads = [threading.Thread(target=Command, args=(udid,)) for udid in Devices]
 		for thread in threads:
