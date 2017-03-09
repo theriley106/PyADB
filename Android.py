@@ -9,6 +9,16 @@ sys.setdefaultencoding("utf-8")
 global Elevated
 Elevated = True
 
+def MultiCommand(command):
+	commands = []
+	if 'None' in str(command):
+		for Device in Devices:
+			commands.append(command.replace('None', Device))
+	threads = [threading.Thread(target=runCommand, args=(command,)) for command in commands]
+	for thread in threads:
+		thread.start()
+	for thread in threads:
+		thread.join()
 
 def runCommand(command):
 	if Elevated == True:
@@ -414,211 +424,838 @@ def ClickButton(udid, button):
 				bounds = parts[-4:]
 				InputRandomBound(udid, bounds)
 
-def KeycodeUnknown(udid):
-	runCommand("adb -s {} shell input keyevent 0".format(udid))
-def KeycodeMenu(udid):
-	runCommand("adb -s {} shell input keyevent 1".format(udid))
-def KeycodeSoft_Right(udid):
-	runCommand("adb -s {} shell input keyevent 2".format(udid))
-def KeycodeHome(udid):
-	runCommand("adb -s {} shell input keyevent 3".format(udid))
-def KeycodeBack(udid):
-	runCommand("adb -s {} shell input keyevent 4".format(udid))
-def KeycodeCall(udid):
-	runCommand("adb -s {} shell input keyevent 5".format(udid))
-def KeycodeEndcall(udid):
-	runCommand("adb -s {} shell input keyevent 6".format(udid))
-def Keycode0(udid):
-	runCommand("adb -s {} shell input keyevent 7".format(udid))
-def Keycode1(udid):
-	runCommand("adb -s {} shell input keyevent 8".format(udid))
-def Keycode2(udid):
-	runCommand("adb -s {} shell input keyevent 9".format(udid))
-def Keycode3(udid):
-	runCommand("adb -s {} shell input keyevent 10".format(udid))
-def Keycode4(udid):
-	runCommand("adb -s {} shell input keyevent 11".format(udid))
-def Keycode5(udid):
-	runCommand("adb -s {} shell input keyevent 12".format(udid))
-def Keycode6(udid):
-	runCommand("adb -s {} shell input keyevent 13".format(udid))
-def Keycode7(udid):
-	runCommand("adb -s {} shell input keyevent 14".format(udid))
-def Keycode8(udid):
-	runCommand("adb -s {} shell input keyevent 15".format(udid))
-def Keycode9(udid):
-	runCommand("adb -s {} shell input keyevent 16".format(udid))
-def KeycodeStar(udid):
-	runCommand("adb -s {} shell input keyevent 17".format(udid))
-def KeycodePound(udid):
-	runCommand("adb -s {} shell input keyevent 18".format(udid))
-def KeycodeDpad_Up(udid):
-	runCommand("adb -s {} shell input keyevent 19".format(udid))
-def KeycodeDpad_Down(udid):
-	runCommand("adb -s {} shell input keyevent 20".format(udid))
-def KeycodeDpad_Left(udid):
-	runCommand("adb -s {} shell input keyevent 21".format(udid))
-def KeycodeDpad_Right(udid):
-	runCommand("adb -s {} shell input keyevent 22".format(udid))
-def KeycodeDpad_Center(udid):
-	runCommand("adb -s {} shell input keyevent 23".format(udid))
-def KeycodeVolume_Up(udid):
-	runCommand("adb -s {} shell input keyevent 24".format(udid))
-def KeycodeVolume_Down(udid):
-	runCommand("adb -s {} shell input keyevent 25".format(udid))
-def KeycodePower(udid):
-	runCommand("adb -s {} shell input keyevent 26".format(udid))
-def KeycodeCamera(udid):
-	runCommand("adb -s {} shell input keyevent 27".format(udid))
-def KeycodeClear(udid):
-	runCommand("adb -s {} shell input keyevent 28".format(udid))
-def KeycodeA(udid):
-	runCommand("adb -s {} shell input keyevent 29".format(udid))
-def KeycodeB(udid):
-	runCommand("adb -s {} shell input keyevent 30".format(udid))
-def KeycodeC(udid):
-	runCommand("adb -s {} shell input keyevent 31".format(udid))
-def KeycodeD(udid):
-	runCommand("adb -s {} shell input keyevent 32".format(udid))
-def KeycodeE(udid):
-	runCommand("adb -s {} shell input keyevent 33".format(udid))
-def KeycodeF(udid):
-	runCommand("adb -s {} shell input keyevent 34".format(udid))
-def KeycodeG(udid):
-	runCommand("adb -s {} shell input keyevent 35".format(udid))
-def KeycodeH(udid):
-	runCommand("adb -s {} shell input keyevent 36".format(udid))
-def KeycodeI(udid):
-	runCommand("adb -s {} shell input keyevent 37".format(udid))
-def KeycodeJ(udid):
-	runCommand("adb -s {} shell input keyevent 38".format(udid))
-def KeycodeK(udid):
-	runCommand("adb -s {} shell input keyevent 39".format(udid))
-def KeycodeL(udid):
-	runCommand("adb -s {} shell input keyevent 40".format(udid))
-def KeycodeM(udid):
-	runCommand("adb -s {} shell input keyevent 41".format(udid))
-def KeycodeN(udid):
-	runCommand("adb -s {} shell input keyevent 42".format(udid))
-def KeycodeO(udid):
-	runCommand("adb -s {} shell input keyevent 43".format(udid))
-def KeycodeP(udid):
-	runCommand("adb -s {} shell input keyevent 44".format(udid))
-def KeycodeQ(udid):
-	runCommand("adb -s {} shell input keyevent 45".format(udid))
-def KeycodeR(udid):
-	runCommand("adb -s {} shell input keyevent 46".format(udid))
-def KeycodeS(udid):
-	runCommand("adb -s {} shell input keyevent 47".format(udid))
-def KeycodeT(udid):
-	runCommand("adb -s {} shell input keyevent 48".format(udid))
-def KeycodeU(udid):
-	runCommand("adb -s {} shell input keyevent 49".format(udid))
-def KeycodeV(udid):
-	runCommand("adb -s {} shell input keyevent 50".format(udid))
-def KeycodeW(udid):
-	runCommand("adb -s {} shell input keyevent 51".format(udid))
-def KeycodeX(udid):
-	runCommand("adb -s {} shell input keyevent 52".format(udid))
-def KeycodeY(udid):
-	runCommand("adb -s {} shell input keyevent 53".format(udid))
-def KeycodeZ(udid):
-	runCommand("adb -s {} shell input keyevent 54".format(udid))
-def KeycodeComma(udid):
-	runCommand("adb -s {} shell input keyevent 55".format(udid))
-def KeycodePeriod(udid):
-	runCommand("adb -s {} shell input keyevent 56".format(udid))
-def KeycodeAlt_Left(udid):
-	runCommand("adb -s {} shell input keyevent 57".format(udid))
-def KeycodeAlt_Right(udid):
-	runCommand("adb -s {} shell input keyevent 58".format(udid))
-def KeycodeShift_Left(udid):
-	runCommand("adb -s {} shell input keyevent 59".format(udid))
-def KeycodeShift_Right(udid):
-	runCommand("adb -s {} shell input keyevent 60".format(udid))
-def KeycodeTab(udid):
-	runCommand("adb -s {} shell input keyevent 61".format(udid))
-def KeycodeSpace(udid):
-	runCommand("adb -s {} shell input keyevent 62".format(udid))
-def KeycodeSym(udid):
-	runCommand("adb -s {} shell input keyevent 63".format(udid))
-def KeycodeExplorer(udid):
-	runCommand("adb -s {} shell input keyevent 64".format(udid))
-def KeycodeEnvelope(udid):
-	runCommand("adb -s {} shell input keyevent 65".format(udid))
-def KeycodeEnter(udid):
-	runCommand("adb -s {} shell input keyevent 66".format(udid))
-def KeycodeDel(udid):
-	runCommand("adb -s {} shell input keyevent 67".format(udid))
-def KeycodeGrave(udid):
-	runCommand("adb -s {} shell input keyevent 68".format(udid))
-def KeycodeMinus(udid):
-	runCommand("adb -s {} shell input keyevent 69".format(udid))
-def KeycodeEquals(udid):
-	runCommand("adb -s {} shell input keyevent 70".format(udid))
-def KeycodeLeft_Bracket(udid):
-	runCommand("adb -s {} shell input keyevent 71".format(udid))
-def KeycodeRight_Bracket(udid):
-	runCommand("adb -s {} shell input keyevent 72".format(udid))
-def KeycodeBackslash(udid):
-	runCommand("adb -s {} shell input keyevent 73".format(udid))
-def KeycodeSemicolon(udid):
-	runCommand("adb -s {} shell input keyevent 74".format(udid))
-def KeycodeApostrophe(udid):
-	runCommand("adb -s {} shell input keyevent 75".format(udid))
-def KeycodeSlash(udid):
-	runCommand("adb -s {} shell input keyevent 76".format(udid))
-def KeycodeAt(udid):
-	runCommand("adb -s {} shell input keyevent 77".format(udid))
-def KeycodeNum(udid):
-	runCommand("adb -s {} shell input keyevent 78".format(udid))
-def KeycodeHeadsethook(udid):
-	runCommand("adb -s {} shell input keyevent 79".format(udid))
-def KeycodeFocus(udid):
-	runCommand("adb -s {} shell input keyevent 80".format(udid))
-def KeycodePlus(udid):
-	runCommand("adb -s {} shell input keyevent 81".format(udid))
-def KeycodeMenu(udid):
-	runCommand("adb -s {} shell input keyevent 82".format(udid))
-def KeycodeNotification(udid):
-	runCommand("adb -s {} shell input keyevent 83".format(udid))
-def KeycodeSearch(udid):
-	runCommand("adb -s {} shell input keyevent 84".format(udid))
-def KeycodeTagLast(udid):
-	runCommand("adb -s {} shell input keyevent 85".format(udid))
-def KeycodeBack(udid):
-	runCommand('adb -s {} shell input keyevent 4'.format(udid))
-def KeycodeHome(udid):
-	runCommand('adb -s {} shell input keyevent 3'.format(udid))
-def TouchScreen(udid, x, y):
-	runCommand('adb -s {} shell input tap {} {}'.format(udid, x, y))
-def KeycodeEnter(udid):
-	runCommand('adb -s {} shell input keyevent 66'.format(udid))
-def KeycodeSearch(udid):
-	runCommand('adb -s {} shell input keyevent 84'.format(udid))
-def KeycodeMenu(udid):
-	runCommand('adb -s {} shell input keyevent 82'.format(udid))
-def KeycodeSpace(udid):
-	runCommand('adb -s {} shell input keyevent 62'.format(udid))
-def KeycodeClear(udid):
-	runCommand('adb -s {} shell input keyevent 28'.format(udid))
-def KeycodePower(udid):
-	runCommand('adb -s {} shell input keyevent 26'.format(udid))
-def KeycodeVolumeUp(udid):
-	runCommand('adb -s {} shell input keyevent 24'.format(udid))
-def KeycodeVolumeDown(udid):
-	runCommand('adb -s {} shell input keyevent 25'.format(udid))
-def KeycodeSoftRight(udid):
-	runCommand('adb -s {} shell input keyevent 2'.format(udid))
-def KeycodeUp(udid):
-	runCommand('adb -s {} shell input keyevent 19'.format(udid))
-def KeycodeDown(udid):
-	runCommand('adb -s {} shell input keyevent 20'.format(udid))
-def KeycodeLeft(udid):
-	runCommand('adb -s {} shell input keyevent 21'.format(udid))
-def KeycodeRight(udid):
-	runCommand('adb -s {} shell input keyevent 22'.format(udid))
-def KeycodeCenter(udid):
-	runCommand('adb -s {} shell input keyevent 22'.format(udid))
+def KeycodeUnknown(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 0".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeMenu(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 1".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSoft_Right(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 2".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
 
 
+def KeycodeHome(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 3".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeBack(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 4".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeCall(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 5".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+		MultiCommand(Command)
+def KeycodeEndcall(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 6".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode0(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 7".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode1(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 8".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+
+
+def Keycode2(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 9".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode3(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 10".format(udid))
+	Command = Command()
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode4(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 11".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode5(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 12".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode6(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 13".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode7(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 14".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode8(udid=None):
+
+	
+	def Command():
+		return str("adb -s {} shell input keyevent 15".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def Keycode9(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 16".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeStar(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 17".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodePound(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 18".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDpad_Up(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 19".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDpad_Down(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 20".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDpad_Left(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 21".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDpad_Right(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 22".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDpad_Center(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 23".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeVolume_Up(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 24".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeVolume_Down(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 25".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodePower(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 26".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeCamera(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 27".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeClear(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 28".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeA(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 29".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeB(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 30".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeC(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 31".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeD(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 32".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeE(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 33".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeF(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 34".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeG(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 35".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeH(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 36".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeI(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 37".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeJ(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 38".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeK(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 39".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeL(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 40".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeM(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 41".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeN(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 42".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeO(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 43".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeP(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 44".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeQ(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 45".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeR(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 46".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeS(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 47".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeT(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 48".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeU(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 49".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeV(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 50".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeW(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 51".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeX(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 52".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeY(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 53".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeZ(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 54".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeComma(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 55".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodePeriod(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 56".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeAlt_Left(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 57".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeAlt_Right(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 58".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeShift_Left(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 59".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeShift_Right(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 60".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeTab(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 61".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSpace(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 62".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSym(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 63".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeExplorer(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 64".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeEnvelope(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 65".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeEnter(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 66".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDel(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 67".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeGrave(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 68".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeMinus(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 69".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeEquals(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 70".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeLeft_Bracket(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 71".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeRight_Bracket(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 72".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeBackslash(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 73".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSemicolon(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 74".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeApostrophe(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 75".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSlash(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 76".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeAt(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 77".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeNum(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 78".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeHeadsethook(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 79".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeFocus(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 80".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodePlus(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 81".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeMenu(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 82".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeNotification(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 83".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSearch(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 84".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeTagLast(udid=None):
+	def Command():
+		return str("adb -s {} shell input keyevent 85".format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeBack(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 4'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeHome(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 3'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def TouchScreen(udid=None, x, y):
+	def Command():
+		return str('adb -s {} shell input tap {} {}'.format(uedid, x, y))
+def KeycodeEnter(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 66'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSearch(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 84'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeMenu(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 82'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSpace(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 62'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeClear(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 28'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodePower(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 26'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeVolumeUp(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 24'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+
+
+def KeycodeVolumeDown(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 25'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeSoftRight(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 2'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeUp(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 19'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeDown(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 20'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeLeft(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 21'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeRight(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 22'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+def KeycodeCenter(udid=None):
+	def Command():
+		return str('adb -s {} shell input keyevent 22'.format(udid))
+	Command = Command()
+	if udid != None:
+		runCommand(Command)
+	else:
+		MultiCommand(Command)
+
+
+global Devices
+Devices = ConnectedDevices()
