@@ -366,6 +366,7 @@ def StartApplication(udid, app):
 	Command = 'adb -s ' + udid + " shell monkey -p " + str(app) + " -c android.intent.category.LAUNCHER 1"
 	runCommand(str(Command))
 def ConnectedDevices(sudo=None):
+	connected = []
 	Command = 'adb kill-server'
 	runCommand(str(Command))
 	runCommand('adb devices')
