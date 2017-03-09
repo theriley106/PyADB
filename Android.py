@@ -1138,9 +1138,7 @@ def KeycodeHome(udid=None):
 		runCommand(Command)
 	else:
 		MultiCommand(Command)
-def TouchScreen(udid=None, x, y):
-	def Command():
-		return str('adb -s {} shell input tap {} {}'.format(uedid, x, y))
+
 def KeycodeEnter(udid=None):
 	def Command():
 		return str('adb -s {} shell input keyevent 66'.format(udid))
@@ -1259,3 +1257,4 @@ def KeycodeCenter(udid=None):
 
 global Devices
 Devices = ConnectedDevices()
+print('{} Devices Currently Connected'.format(len(Devices)))
