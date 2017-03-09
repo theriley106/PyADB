@@ -54,44 +54,53 @@ def ClickStayAwake(udid):
 		if str(e[i][0]) == "android:id/checkbox" and str(e[i][1]) == "android.widget.CheckBox" and str(e[i-2][2]) == "Screen will never sleep while charging" and str(e[i][7]) == "false":
 			InputRandomBound(udid, e[i][-4:])
 			print('clicked stay awake')
-def ConnectToWifi(udid, wifi, password, proxy=False):
-	#Pixi glitz
-	runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
-	time.sleep(3)
-	e = UiAutomatorToList(udid)
-	for i in range(len(e)):
-		if str(e[i][2]) == str(wifi):
-			InputRandomBound(udid, e[i][-4:])
-			print('clicked wifi network {}'.format(wifi))
-	time.sleep(1)
-	InputText(udid, password)
-	if proxy != False:
-		split = proxy.partition(':')
-		host = split[0]
-		port = split[2]
-		KeycodeBack(udid)
-		ClickButton(udid, 'Show advanced options')
-		for i in range(6):
-			KeycodeDpad_Down(udid)
-		ClickButton(udid, "None")
+def ConnectToWifi(wifi, password, proxy=False, udid=None):
+	def Command(udid):
+		#Pixi glitz
+		runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
+		time.sleep(3)
+		e = UiAutomatorToList(udid)
+		for i in range(len(e)):
+			if str(e[i][2]) == str(wifi):
+				InputRandomBound(udid, e[i][-4:])
+				print('clicked wifi network {}'.format(wifi))
 		time.sleep(1)
-		ClickButton(udid, "Manual")
-		for i in range(6):
-			KeycodeDpad_Down(udid)
-		ClickButton(udid, "proxy.example.com")
-		InputText(udid, host)
-		KeycodeBack(udid)
-		for i in range(6):
-			KeycodeDpad_Down(udid)
-		ClickButton(udid, "8080")
-		InputText(udid, port)
-	time.sleep(1)
-	e = UiAutomatorToList(udid)
-	for i in range(len(e)):
-		if str(e[i][0]) == "android:id/button1":
-			InputRandomBound(udid, e[i][-4:])
-	
-	print('connected to {}'.format(wifi))
+		InputText(udid, password)
+		if proxy != False:
+			split = proxy.partition(':')
+			host = split[0]
+			port = split[2]
+			KeycodeBack(udid)
+			ClickButton(udid, 'Show advanced options')
+			for i in range(6):
+				KeycodeDpad_Down(udid)
+			ClickButton(udid, "None")
+			time.sleep(1)
+			ClickButton(udid, "Manual")
+			for i in range(6):
+				KeycodeDpad_Down(udid)
+			ClickButton(udid, "proxy.example.com")
+			InputText(udid, host)
+			KeycodeBack(udid)
+			for i in range(6):
+				KeycodeDpad_Down(udid)
+			ClickButton(udid, "8080")
+			InputText(udid, port)
+		time.sleep(1)
+		e = UiAutomatorToList(udid)
+		for i in range(len(e)):
+			if str(e[i][0]) == "android:id/button1":
+				InputRandomBound(udid, e[i][-4:])
+		
+		print('{} connected to {}'.format(udid, wifi))
+	if udid != None:
+		Command(udid)
+	else:
+		threads = [threading.Thread(target=Command, args=(udid,)) for udid in Devices]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
 
 def ClearCache(udid, app):
 	runCommand('adb -s {} shell pm clear {}'.format(udid, app))
@@ -417,6 +426,7 @@ def InstallAPK(udid, apk):
 def InputText(udid, text):
 	runCommand('adb -s {} shell input text {}'.format(udid, text))
 
+
 def ClickButton(udid, button):
 	File = GrabUiAutomator(udid)
 	CurrentScreen = XMLtoList(File)
@@ -425,6 +435,11 @@ def ClickButton(udid, button):
 			if str(part) == str(button):
 				bounds = parts[-4:]
 				InputRandomBound(udid, bounds)
+
+
+###########################################_________KEYCODE___________################################################################
+
+
 
 def KeycodeUnknown(udid=None):
 	def Command():
@@ -474,10 +489,7 @@ def KeycodeCall(udid=None):
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
-	if udid != None:
-		runCommand(Command)
 	else:
-		MultiCommand(Command)
 		MultiCommand(Command)
 def KeycodeEndcall(udid=None):
 	def Command():
