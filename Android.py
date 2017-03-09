@@ -310,7 +310,8 @@ def UiAutomatorToList(udid):
 	try:
 		os.remove(SavedFile)
 		return information
-	except:
+	except BaseException as exp:
+		print(exp)
 		pass
 def XMLtoList(uiautomatorfile):
 	#returns a list of lists
