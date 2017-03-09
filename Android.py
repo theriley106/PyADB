@@ -201,18 +201,29 @@ def SetupDevice(udid):
 	ConnectToWifi(udid, 'Ubiquiti2', 'baxter112')
 	RemoveLock(udid)
 	MuteSound(udid)
-def LoginGooglePlay(udid, username, password):
-	StartApplication(udid, 'com.android.vending')
-	ClickButton(udid, "Existing")
-	InputText(udid, username)
-	KeycodeBack(udid)
-	ClickButton(udid, "com.google.android.gsf.login:id/password_edit")
-	InputText(udid, password)
-	KeycodeBack(udid)
-	time.sleep(1)
-	ClickButton(udid, "com.google.android.gsf.login:id/next_button")
-	time.sleep(1)
-	ClickButton(udid, "android:id/button1")
+def LoginGooglePlay(username, password, udid=None):
+	def Command(udid):
+		StartApplication(udid, 'com.android.vending')
+		ClickButton(udid, "Existing")
+		InputText(udid, username)
+		KeycodeBack(udid)
+		ClickButton(udid, "com.google.android.gsf.login:id/password_edit")
+		InputText(udid, password)
+		KeycodeBack(udid)
+		time.sleep(1)
+		ClickButton(udid, "com.google.android.gsf.login:id/next_button")
+		time.sleep(1)
+		ClickButton(udid, "android:id/button1")
+	if udid != None:
+		Command(udid)
+	else:
+		threads = [threading.Thread(target=Command, args=(udid,)) for udid in Devices]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
+		
+
 
 
 def LoadP(udid, filename):
