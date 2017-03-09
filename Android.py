@@ -151,15 +151,25 @@ def ShowTouches(udid):
 			InputRandomBound(udid, e[i][-4:])
 			print('clicked pointer location')
 	
-def CheckWifiConnection(udid):
-	Connected = False
-	runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
-	lis = UiAutomatorToList(udid)
-	for i in range(len(lis)):
-		if "Connected" in str(lis[i]):
-			print('{} is connected to: {}'.format(udid, lis[i-1][2]))
-			Connected = True
-	return Connected
+def CheckWifiConnection(udid=None):
+	def Command(udid):
+		Connected = False
+		runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
+		lis = UiAutomatorToList(udid)
+		for i in range(len(lis)):
+			if "Connected" in str(lis[i]):
+				print('{} is connected to: {}'.format(udid, lis[i-1][2]))
+				Connected = True
+		return Connected
+
+	if udid != None:
+		Command(udid)
+	else:
+		threads = [threading.Thread(target=Command, args=(udid,)) for udid in Devices]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
 
 def RemoveUSBBlock(udid):
 	runCommand('adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
