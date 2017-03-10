@@ -163,6 +163,7 @@ def CheckWifiConnection(udid=None):
 				Connected = True
 		if Connected == False:
 			print('{} not currently connected a wifi network'.format(udid))
+			KeycodePower(udid)
 			a.append(udid)
 		return Connected
 
