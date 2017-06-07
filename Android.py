@@ -32,12 +32,12 @@ def MuteSound(udid):
 	#Pixi glitz
 	StartApplication(udid, 'com.android.music')
 	for i in range(10):
-		runCommand('adb -s {} shell input keyevent 25'.format(udid))
+		runCommand('sudo adb -s {} shell input keyevent 25'.format(udid))
 	print('muted volume')
 	
 def RemoveLock(udid):
 	#Pixi glitz
-	runCommand('adb -s {} shell am start -a android.app.action.SET_NEW_PASSWORD'.format(udid))
+	runCommand('sudo adb -s {} shell am start -a android.app.action.SET_NEW_PASSWORD'.format(udid))
 	time.sleep(1)
 	e = UiAutomatorToList(udid)
 	for i in range(len(e)):
@@ -47,7 +47,7 @@ def RemoveLock(udid):
 
 def ClickStayAwake(udid):
 	#Pixi glitz
-	runCommand('adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
+	runCommand('sudo adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
 	time.sleep(3)
 	e = UiAutomatorToList(udid)
 	for i in range(len(e)):
@@ -57,7 +57,7 @@ def ClickStayAwake(udid):
 def ConnectToWifi(wifi, password, proxy=False, udid=None):
 	def Command(udid):
 		#Pixi glitz
-		runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
+		runCommand('sudo adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
 		time.sleep(3)
 		e = UiAutomatorToList(udid)
 		for i in range(len(e)):
@@ -103,7 +103,7 @@ def ConnectToWifi(wifi, password, proxy=False, udid=None):
 			thread.join()
 
 def ClearCache(udid, app):
-	runCommand('adb -s {} shell pm clear {}'.format(udid, app))
+	runCommand('sudo adb -s {} shell pm clear {}'.format(udid, app))
 	
 def CheckConnected(udid):
 	connected = []
@@ -122,7 +122,7 @@ def CheckConnected(udid):
 		return False
 def RebootDevice(udid):
 	timeout = time.time() + 60*3
-	runCommand('adb -s {} reboot'.format(udid))
+	runCommand('sudo adb -s {} reboot'.format(udid))
 	while CheckConnected(udid) == False:
 		time.sleep(5)
 		if time.time() > timeout:
@@ -137,7 +137,7 @@ def RemoveDisplayTimeout(udid):
 	ClickButton(udid, "Never")
 
 def ShowTouches(udid):
-	runCommand('adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
+	runCommand('sudo adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
 	time.sleep(3)
 	for i in range(17):
 		KeycodeDpad_Down(udid)
@@ -155,7 +155,7 @@ def CheckWifiConnection(udid=None):
 	a = []
 	def Command(udid):
 		Connected = False
-		runCommand('adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
+		runCommand('sudo adb -s {} shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings'.format(udid))
 		lis = UiAutomatorToList(udid)
 		for i in range(len(lis)):
 			if "Connected" in str(lis[i]):
@@ -179,7 +179,7 @@ def CheckWifiConnection(udid=None):
 	print('{} devices not connected'.format(len(a)))
 
 def RemoveUSBBlock(udid):
-	runCommand('adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
+	runCommand('sudo adb -s {} shell am start -n com.android.settings/.DevelopmentSettings'.format(udid))
 	time.sleep(3)
 	for i in range(14):
 		KeycodeDpad_Down(udid)
@@ -243,7 +243,7 @@ def LoadP(udid, filename):
 def UiAutomatorToDict(udid):
 	information = []
 	SavedFile = 'XML/' + str(random.randint(99999,100000000)) + '.xml'
-	Command = "adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
+	Command = "sudo adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
 	runCommand(Command)
 	xmldoc = minidom.parse(SavedFile)
 	itemlist = xmldoc.getElementsByTagName('node')
@@ -292,7 +292,7 @@ def GetBounds(tt):
 	return Coordinates
 def GrabUiAutomator(udid):
 	SavedFile = 'XML/' + str(udid) + '.xml'
-	Command = "adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
+	Command = "sudo adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
 	runCommand(Command)
 	return SavedFile
 def LoadingScreen(udid):
@@ -308,7 +308,7 @@ def UiAutomatorToList(udid):
 	try:
 		information = []
 		SavedFile = 'XML/' + str(random.randint(99999,100000000)) + '.xml'
-		Command = "adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
+		Command = "sudo adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
 		runCommand(Command)
 		xmldoc = minidom.parse(SavedFile)
 		itemlist = xmldoc.getElementsByTagName('node')
@@ -372,8 +372,8 @@ def XMLtoList(uiautomatorfile):
 def InputRandomBound(udid, Bounds):
 	A = str(random.randint(Bounds[1], Bounds[3]))
 	B = str(random.randint(Bounds[0], Bounds[2]))
-	print('adb -s {} shell input tap {} {}'.format(udid, B, A))
-	runCommand('adb -s {} shell input tap {} {}'.format(udid, B, A))
+	print('sudo adb -s {} shell input tap {} {}'.format(udid, B, A))
+	runCommand('sudo adb -s {} shell input tap {} {}'.format(udid, B, A))
 def ReturnRandomBound(udid, Bounds):
 	A = str(random.randint(Bounds[1], Bounds[3]))
 	B = str(random.randint(Bounds[0], Bounds[2]))
@@ -387,22 +387,22 @@ def RestartADB(Devices):
 def ConnectDevice(ip):
 	runCommand('adb connect {}'.format(ip))
 def Rotate(udid):
-	runCommand('adb -s {} shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0'.format(udid))
+	runCommand('sudo adb -s {} shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0'.format(udid))
 def ForceClose(udid, app):
-	runCommand('adb -s {} shell am force-stop {}'.format(udid, app))
+	runCommand('sudo adb -s {} shell am force-stop {}'.format(udid, app))
 def SetBrightness(udid):
-	runCommand('adb -s {} shell settings put system screen_brightness 0'.format(udid))
+	runCommand('sudo adb -s {} shell settings put system screen_brightness 0'.format(udid))
 def KeycodePower(udid):
-	Command = 'adb -s ' + udid + " shell input keyevent 26"
+	Command = 'sudo adb -s ' + udid + " shell input keyevent 26"
 	runCommand(str(Command))
 
 def TakeScreenshot(udid):
 	screenshot = str(udid) + '.png'
-	Command = "adb -s " + str(udid) + " shell screencap -p | sed 's/\r$//' > " + str(screenshot)
+	Command = "sudo adb -s " + str(udid) + " shell screencap -p | sed 's/\r$//' > " + str(screenshot)
 	runCommand(str(Command))
 	return screenshot
 def StartApplication(udid, app):
-	Command = 'adb -s ' + udid + " shell monkey -p " + str(app) + " -c android.intent.category.LAUNCHER 1"
+	Command = 'sudo adb -s ' + udid + " shell monkey -p " + str(app) + " -c android.intent.category.LAUNCHER 1"
 	runCommand(str(Command))
 def ConnectedDevices(sudo=None):
 	connected = []
@@ -427,14 +427,14 @@ def CurrentApp(udid):
 	return app
 def Scroll(udid, sx, sy, ex, ey, Delay=None):
 	if Delay == None:
-		runCommand('adb -s {} shell input swipe {} {} {} {}'.format(udid, sx, sy, ex, ey))
+		runCommand('sudo adb -s {} shell input swipe {} {} {} {}'.format(udid, sx, sy, ex, ey))
 	else:
-		runCommand('adb -s {} shell input swipe {} {} {} {} {}'.format(udid, sx, sy, ex, ey, Delay))
+		runCommand('sudo adb -s {} shell input swipe {} {} {} {} {}'.format(udid, sx, sy, ex, ey, Delay))
 def DetermineFinished(udid):
 	#This determines if you're at the end of a list
 	EndOfList = False
 	List1 = UiAutomatorToList(udid)
-	runCommand('adb -s {} shell input swipe 150 320 0 0 2000'.format(udid))
+	runCommand('sudo adb -s {} shell input swipe 150 320 0 0 2000'.format(udid))
 	List2 = UiAutomatorToList(udid)
 	if List1 == List2:
 		EndOfList = True
@@ -445,15 +445,15 @@ def SearchForMultiButtons(udid, listofbuttons):
 	CurrentScreen = XMLtoList(File)
 	for parts in CurrentScreen:
 		for buttons in listofbuttons:
-			for part in parts:
+			ofr part in parts:
 				if str(part) == str(buttons):
 					bounds = parts[-4:]
 					InputRandomBound(udid, bounds)
 					return str(buttons)
 def InstallAPK(udid, apk):
-	runCommand('adb -s {} install {}'.format(udid, apk))
+	runCommand('sudo adb -s {} install {}'.format(udid, apk))
 def InputText(udid, text):
-	runCommand('adb -s {} shell input text {}'.format(udid, text))
+	runCommand('sudo adb -s {} shell input text {}'.format(udid, text))
 
 
 def ClickButton(udid, button):
@@ -472,7 +472,7 @@ def ClickButton(udid, button):
 
 def KeycodeUnknown(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 0".format(udid))
+		return str("sudo adb -s {} shell input keyevent 0".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -480,7 +480,7 @@ def KeycodeUnknown(udid=None):
 		MultiCommand(Command)
 def KeycodeMenu(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 1".format(udid))
+		return str("sudo adb -s {} shell input keyevent 1".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -488,7 +488,7 @@ def KeycodeMenu(udid=None):
 		MultiCommand(Command)
 def KeycodeSoft_Right(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 2".format(udid))
+		return str("sudo adb -s {} shell input keyevent 2".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -498,7 +498,7 @@ def KeycodeSoft_Right(udid=None):
 
 def KeycodeHome(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 3".format(udid))
+		return str("sudo adb -s {} shell input keyevent 3".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -506,7 +506,7 @@ def KeycodeHome(udid=None):
 		MultiCommand(Command)
 def KeycodeBack(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 4".format(udid))
+		return str("sudo adb -s {} shell input keyevent 4".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -514,7 +514,7 @@ def KeycodeBack(udid=None):
 		MultiCommand(Command)
 def KeycodeCall(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 5".format(udid))
+		return str("sudo adb -s {} shell input keyevent 5".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -522,7 +522,7 @@ def KeycodeCall(udid=None):
 		MultiCommand(Command)
 def KeycodeEndcall(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 6".format(udid))
+		return str("sudo adb -s {} shell input keyevent 6".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -530,7 +530,7 @@ def KeycodeEndcall(udid=None):
 		MultiCommand(Command)
 def Keycode0(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 7".format(udid))
+		return str("sudo adb -s {} shell input keyevent 7".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -538,7 +538,7 @@ def Keycode0(udid=None):
 		MultiCommand(Command)
 def Keycode1(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 8".format(udid))
+		return str("sudo adb -s {} shell input keyevent 8".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -548,7 +548,7 @@ def Keycode1(udid=None):
 
 def Keycode2(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 9".format(udid))
+		return str("sudo adb -s {} shell input keyevent 9".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -556,7 +556,7 @@ def Keycode2(udid=None):
 		MultiCommand(Command)
 def Keycode3(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 10".format(udid))
+		return str("sudo adb -s {} shell input keyevent 10".format(udid))
 	Command = Command()
 	Command = Command()
 	if udid != None:
@@ -565,7 +565,7 @@ def Keycode3(udid=None):
 		MultiCommand(Command)
 def Keycode4(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 11".format(udid))
+		return str("sudo adb -s {} shell input keyevent 11".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -573,7 +573,7 @@ def Keycode4(udid=None):
 		MultiCommand(Command)
 def Keycode5(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 12".format(udid))
+		return str("sudo adb -s {} shell input keyevent 12".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -581,7 +581,7 @@ def Keycode5(udid=None):
 		MultiCommand(Command)
 def Keycode6(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 13".format(udid))
+		return str("sudo adb -s {} shell input keyevent 13".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -589,7 +589,7 @@ def Keycode6(udid=None):
 		MultiCommand(Command)
 def Keycode7(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 14".format(udid))
+		return str("sudo adb -s {} shell input keyevent 14".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -599,7 +599,7 @@ def Keycode8(udid=None):
 
 	
 	def Command():
-		return str("adb -s {} shell input keyevent 15".format(udid))
+		return str("sudo adb -s {} shell input keyevent 15".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -607,7 +607,7 @@ def Keycode8(udid=None):
 		MultiCommand(Command)
 def Keycode9(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 16".format(udid))
+		return str("sudo adb -s {} shell input keyevent 16".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -615,7 +615,7 @@ def Keycode9(udid=None):
 		MultiCommand(Command)
 def KeycodeStar(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 17".format(udid))
+		return str("sudo adb -s {} shell input keyevent 17".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -623,7 +623,7 @@ def KeycodeStar(udid=None):
 		MultiCommand(Command)
 def KeycodePound(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 18".format(udid))
+		return str("sudo adb -s {} shell input keyevent 18".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -631,7 +631,7 @@ def KeycodePound(udid=None):
 		MultiCommand(Command)
 def KeycodeDpad_Up(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 19".format(udid))
+		return str("sudo adb -s {} shell input keyevent 19".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -639,7 +639,7 @@ def KeycodeDpad_Up(udid=None):
 		MultiCommand(Command)
 def KeycodeDpad_Down(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 20".format(udid))
+		return str("sudo adb -s {} shell input keyevent 20".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -647,7 +647,7 @@ def KeycodeDpad_Down(udid=None):
 		MultiCommand(Command)
 def KeycodeDpad_Left(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 21".format(udid))
+		return str("sudo adb -s {} shell input keyevent 21".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -655,7 +655,7 @@ def KeycodeDpad_Left(udid=None):
 		MultiCommand(Command)
 def KeycodeDpad_Right(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 22".format(udid))
+		return str("sudo adb -s {} shell input keyevent 22".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -663,7 +663,7 @@ def KeycodeDpad_Right(udid=None):
 		MultiCommand(Command)
 def KeycodeDpad_Center(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 23".format(udid))
+		return str("sudo adb -s {} shell input keyevent 23".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -671,7 +671,7 @@ def KeycodeDpad_Center(udid=None):
 		MultiCommand(Command)
 def KeycodeVolume_Up(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 24".format(udid))
+		return str("sudo adb -s {} shell input keyevent 24".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -679,7 +679,7 @@ def KeycodeVolume_Up(udid=None):
 		MultiCommand(Command)
 def KeycodeVolume_Down(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 25".format(udid))
+		return str("sudo adb -s {} shell input keyevent 25".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -687,7 +687,7 @@ def KeycodeVolume_Down(udid=None):
 		MultiCommand(Command)
 def KeycodePower(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 26".format(udid))
+		return str("sudo adb -s {} shell input keyevent 26".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -695,7 +695,7 @@ def KeycodePower(udid=None):
 		MultiCommand(Command)
 def KeycodeCamera(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 27".format(udid))
+		return str("sudo adb -s {} shell input keyevent 27".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -703,7 +703,7 @@ def KeycodeCamera(udid=None):
 		MultiCommand(Command)
 def KeycodeClear(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 28".format(udid))
+		return str("sudo adb -s {} shell input keyevent 28".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -711,7 +711,7 @@ def KeycodeClear(udid=None):
 		MultiCommand(Command)
 def KeycodeA(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 29".format(udid))
+		return str("sudo adb -s {} shell input keyevent 29".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -719,7 +719,7 @@ def KeycodeA(udid=None):
 		MultiCommand(Command)
 def KeycodeB(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 30".format(udid))
+		return str("sudo adb -s {} shell input keyevent 30".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -727,7 +727,7 @@ def KeycodeB(udid=None):
 		MultiCommand(Command)
 def KeycodeC(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 31".format(udid))
+		return str("sudo adb -s {} shell input keyevent 31".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -735,7 +735,7 @@ def KeycodeC(udid=None):
 		MultiCommand(Command)
 def KeycodeD(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 32".format(udid))
+		return str("sudo adb -s {} shell input keyevent 32".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -743,7 +743,7 @@ def KeycodeD(udid=None):
 		MultiCommand(Command)
 def KeycodeE(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 33".format(udid))
+		return str("sudo adb -s {} shell input keyevent 33".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -751,7 +751,7 @@ def KeycodeE(udid=None):
 		MultiCommand(Command)
 def KeycodeF(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 34".format(udid))
+		return str("sudo adb -s {} shell input keyevent 34".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -759,7 +759,7 @@ def KeycodeF(udid=None):
 		MultiCommand(Command)
 def KeycodeG(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 35".format(udid))
+		return str("sudo adb -s {} shell input keyevent 35".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -767,7 +767,7 @@ def KeycodeG(udid=None):
 		MultiCommand(Command)
 def KeycodeH(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 36".format(udid))
+		return str("sudo adb -s {} shell input keyevent 36".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -775,7 +775,7 @@ def KeycodeH(udid=None):
 		MultiCommand(Command)
 def KeycodeI(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 37".format(udid))
+		return str("sudo adb -s {} shell input keyevent 37".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -783,7 +783,7 @@ def KeycodeI(udid=None):
 		MultiCommand(Command)
 def KeycodeJ(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 38".format(udid))
+		return str("sudo adb -s {} shell input keyevent 38".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -791,7 +791,7 @@ def KeycodeJ(udid=None):
 		MultiCommand(Command)
 def KeycodeK(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 39".format(udid))
+		return str("sudo adb -s {} shell input keyevent 39".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -799,7 +799,7 @@ def KeycodeK(udid=None):
 		MultiCommand(Command)
 def KeycodeL(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 40".format(udid))
+		return str("sudo adb -s {} shell input keyevent 40".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -807,7 +807,7 @@ def KeycodeL(udid=None):
 		MultiCommand(Command)
 def KeycodeM(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 41".format(udid))
+		return str("sudo adb -s {} shell input keyevent 41".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -815,7 +815,7 @@ def KeycodeM(udid=None):
 		MultiCommand(Command)
 def KeycodeN(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 42".format(udid))
+		return str("sudo adb -s {} shell input keyevent 42".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -823,7 +823,7 @@ def KeycodeN(udid=None):
 		MultiCommand(Command)
 def KeycodeO(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 43".format(udid))
+		return str("sudo adb -s {} shell input keyevent 43".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -831,7 +831,7 @@ def KeycodeO(udid=None):
 		MultiCommand(Command)
 def KeycodeP(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 44".format(udid))
+		return str("sudo adb -s {} shell input keyevent 44".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -839,7 +839,7 @@ def KeycodeP(udid=None):
 		MultiCommand(Command)
 def KeycodeQ(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 45".format(udid))
+		return str("sudo adb -s {} shell input keyevent 45".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -847,7 +847,7 @@ def KeycodeQ(udid=None):
 		MultiCommand(Command)
 def KeycodeR(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 46".format(udid))
+		return str("sudo adb -s {} shell input keyevent 46".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -855,7 +855,7 @@ def KeycodeR(udid=None):
 		MultiCommand(Command)
 def KeycodeS(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 47".format(udid))
+		return str("sudo adb -s {} shell input keyevent 47".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -863,7 +863,7 @@ def KeycodeS(udid=None):
 		MultiCommand(Command)
 def KeycodeT(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 48".format(udid))
+		return str("sudo adb -s {} shell input keyevent 48".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -871,7 +871,7 @@ def KeycodeT(udid=None):
 		MultiCommand(Command)
 def KeycodeU(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 49".format(udid))
+		return str("sudo adb -s {} shell input keyevent 49".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -879,7 +879,7 @@ def KeycodeU(udid=None):
 		MultiCommand(Command)
 def KeycodeV(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 50".format(udid))
+		return str("sudo adb -s {} shell input keyevent 50".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -887,7 +887,7 @@ def KeycodeV(udid=None):
 		MultiCommand(Command)
 def KeycodeW(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 51".format(udid))
+		return str("sudo adb -s {} shell input keyevent 51".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -895,7 +895,7 @@ def KeycodeW(udid=None):
 		MultiCommand(Command)
 def KeycodeX(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 52".format(udid))
+		return str("sudo adb -s {} shell input keyevent 52".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -903,7 +903,7 @@ def KeycodeX(udid=None):
 		MultiCommand(Command)
 def KeycodeY(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 53".format(udid))
+		return str("sudo adb -s {} shell input keyevent 53".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -911,7 +911,7 @@ def KeycodeY(udid=None):
 		MultiCommand(Command)
 def KeycodeZ(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 54".format(udid))
+		return str("sudo adb -s {} shell input keyevent 54".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -919,7 +919,7 @@ def KeycodeZ(udid=None):
 		MultiCommand(Command)
 def KeycodeComma(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 55".format(udid))
+		return str("sudo adb -s {} shell input keyevent 55".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -927,7 +927,7 @@ def KeycodeComma(udid=None):
 		MultiCommand(Command)
 def KeycodePeriod(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 56".format(udid))
+		return str("sudo adb -s {} shell input keyevent 56".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -935,7 +935,7 @@ def KeycodePeriod(udid=None):
 		MultiCommand(Command)
 def KeycodeAlt_Left(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 57".format(udid))
+		return str("sudo adb -s {} shell input keyevent 57".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -943,7 +943,7 @@ def KeycodeAlt_Left(udid=None):
 		MultiCommand(Command)
 def KeycodeAlt_Right(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 58".format(udid))
+		return str("sudo adb -s {} shell input keyevent 58".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -951,7 +951,7 @@ def KeycodeAlt_Right(udid=None):
 		MultiCommand(Command)
 def KeycodeShift_Left(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 59".format(udid))
+		return str("sudo adb -s {} shell input keyevent 59".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -959,7 +959,7 @@ def KeycodeShift_Left(udid=None):
 		MultiCommand(Command)
 def KeycodeShift_Right(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 60".format(udid))
+		return str("sudo adb -s {} shell input keyevent 60".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -967,7 +967,7 @@ def KeycodeShift_Right(udid=None):
 		MultiCommand(Command)
 def KeycodeTab(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 61".format(udid))
+		return str("sudo adb -s {} shell input keyevent 61".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -975,7 +975,7 @@ def KeycodeTab(udid=None):
 		MultiCommand(Command)
 def KeycodeSpace(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 62".format(udid))
+		return str("sudo adb -s {} shell input keyevent 62".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -983,7 +983,7 @@ def KeycodeSpace(udid=None):
 		MultiCommand(Command)
 def KeycodeSym(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 63".format(udid))
+		return str("sudo adb -s {} shell input keyevent 63".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -991,7 +991,7 @@ def KeycodeSym(udid=None):
 		MultiCommand(Command)
 def KeycodeExplorer(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 64".format(udid))
+		return str("sudo adb -s {} shell input keyevent 64".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -999,7 +999,7 @@ def KeycodeExplorer(udid=None):
 		MultiCommand(Command)
 def KeycodeEnvelope(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 65".format(udid))
+		return str("sudo adb -s {} shell input keyevent 65".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1007,7 +1007,7 @@ def KeycodeEnvelope(udid=None):
 		MultiCommand(Command)
 def KeycodeEnter(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 66".format(udid))
+		return str("sudo adb -s {} shell input keyevent 66".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1015,7 +1015,7 @@ def KeycodeEnter(udid=None):
 		MultiCommand(Command)
 def KeycodeDel(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 67".format(udid))
+		return str("sudo adb -s {} shell input keyevent 67".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1023,7 +1023,7 @@ def KeycodeDel(udid=None):
 		MultiCommand(Command)
 def KeycodeGrave(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 68".format(udid))
+		return str("sudo adb -s {} shell input keyevent 68".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1031,7 +1031,7 @@ def KeycodeGrave(udid=None):
 		MultiCommand(Command)
 def KeycodeMinus(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 69".format(udid))
+		return str("sudo adb -s {} shell input keyevent 69".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1039,7 +1039,7 @@ def KeycodeMinus(udid=None):
 		MultiCommand(Command)
 def KeycodeEquals(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 70".format(udid))
+		return str("sudo adb -s {} shell input keyevent 70".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1047,7 +1047,7 @@ def KeycodeEquals(udid=None):
 		MultiCommand(Command)
 def KeycodeLeft_Bracket(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 71".format(udid))
+		return str("sudo adb -s {} shell input keyevent 71".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1055,7 +1055,7 @@ def KeycodeLeft_Bracket(udid=None):
 		MultiCommand(Command)
 def KeycodeRight_Bracket(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 72".format(udid))
+		return str("sudo adb -s {} shell input keyevent 72".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1063,7 +1063,7 @@ def KeycodeRight_Bracket(udid=None):
 		MultiCommand(Command)
 def KeycodeBackslash(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 73".format(udid))
+		return str("sudo adb -s {} shell input keyevent 73".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1071,7 +1071,7 @@ def KeycodeBackslash(udid=None):
 		MultiCommand(Command)
 def KeycodeSemicolon(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 74".format(udid))
+		return str("sudo adb -s {} shell input keyevent 74".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1079,7 +1079,7 @@ def KeycodeSemicolon(udid=None):
 		MultiCommand(Command)
 def KeycodeApostrophe(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 75".format(udid))
+		return str("sudo adb -s {} shell input keyevent 75".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1087,7 +1087,7 @@ def KeycodeApostrophe(udid=None):
 		MultiCommand(Command)
 def KeycodeSlash(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 76".format(udid))
+		return str("sudo adb -s {} shell input keyevent 76".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1095,7 +1095,7 @@ def KeycodeSlash(udid=None):
 		MultiCommand(Command)
 def KeycodeAt(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 77".format(udid))
+		return str("sudo adb -s {} shell input keyevent 77".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1103,7 +1103,7 @@ def KeycodeAt(udid=None):
 		MultiCommand(Command)
 def KeycodeNum(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 78".format(udid))
+		return str("sudo adb -s {} shell input keyevent 78".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1111,7 +1111,7 @@ def KeycodeNum(udid=None):
 		MultiCommand(Command)
 def KeycodeHeadsethook(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 79".format(udid))
+		return str("sudo adb -s {} shell input keyevent 79".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1119,7 +1119,7 @@ def KeycodeHeadsethook(udid=None):
 		MultiCommand(Command)
 def KeycodeFocus(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 80".format(udid))
+		return str("sudo adb -s {} shell input keyevent 80".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1127,7 +1127,7 @@ def KeycodeFocus(udid=None):
 		MultiCommand(Command)
 def KeycodePlus(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 81".format(udid))
+		return str("sudo adb -s {} shell input keyevent 81".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1135,7 +1135,7 @@ def KeycodePlus(udid=None):
 		MultiCommand(Command)
 def KeycodeMenu(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 82".format(udid))
+		return str("sudo adb -s {} shell input keyevent 82".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1143,7 +1143,7 @@ def KeycodeMenu(udid=None):
 		MultiCommand(Command)
 def KeycodeNotification(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 83".format(udid))
+		return str("sudo adb -s {} shell input keyevent 83".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1151,7 +1151,7 @@ def KeycodeNotification(udid=None):
 		MultiCommand(Command)
 def KeycodeSearch(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 84".format(udid))
+		return str("sudo adb -s {} shell input keyevent 84".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1159,7 +1159,7 @@ def KeycodeSearch(udid=None):
 		MultiCommand(Command)
 def KeycodeTagLast(udid=None):
 	def Command():
-		return str("adb -s {} shell input keyevent 85".format(udid))
+		return str("sudo adb -s {} shell input keyevent 85".format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1167,7 +1167,7 @@ def KeycodeTagLast(udid=None):
 		MultiCommand(Command)
 def KeycodeBack(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 4'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 4'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1175,7 +1175,7 @@ def KeycodeBack(udid=None):
 		MultiCommand(Command)
 def KeycodeHome(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 3'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 3'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1184,7 +1184,7 @@ def KeycodeHome(udid=None):
 
 def KeycodeEnter(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 66'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 66'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1192,7 +1192,7 @@ def KeycodeEnter(udid=None):
 		MultiCommand(Command)
 def KeycodeSearch(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 84'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 84'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1200,7 +1200,7 @@ def KeycodeSearch(udid=None):
 		MultiCommand(Command)
 def KeycodeMenu(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 82'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 82'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1208,7 +1208,7 @@ def KeycodeMenu(udid=None):
 		MultiCommand(Command)
 def KeycodeSpace(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 62'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 62'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1216,7 +1216,7 @@ def KeycodeSpace(udid=None):
 		MultiCommand(Command)
 def KeycodeClear(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 28'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 28'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1224,7 +1224,7 @@ def KeycodeClear(udid=None):
 		MultiCommand(Command)
 def KeycodePower(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 26'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 26'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1232,7 +1232,7 @@ def KeycodePower(udid=None):
 		MultiCommand(Command)
 def KeycodeVolumeUp(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 24'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 24'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1242,7 +1242,7 @@ def KeycodeVolumeUp(udid=None):
 
 def KeycodeVolumeDown(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 25'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 25'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1250,7 +1250,7 @@ def KeycodeVolumeDown(udid=None):
 		MultiCommand(Command)
 def KeycodeSoftRight(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 2'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 2'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1258,7 +1258,7 @@ def KeycodeSoftRight(udid=None):
 		MultiCommand(Command)
 def KeycodeUp(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 19'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 19'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1266,7 +1266,7 @@ def KeycodeUp(udid=None):
 		MultiCommand(Command)
 def KeycodeDown(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 20'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 20'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1274,7 +1274,7 @@ def KeycodeDown(udid=None):
 		MultiCommand(Command)
 def KeycodeLeft(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 21'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 21'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1282,7 +1282,7 @@ def KeycodeLeft(udid=None):
 		MultiCommand(Command)
 def KeycodeRight(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 22'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 22'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)
@@ -1290,7 +1290,7 @@ def KeycodeRight(udid=None):
 		MultiCommand(Command)
 def KeycodeCenter(udid=None):
 	def Command():
-		return str('adb -s {} shell input keyevent 22'.format(udid))
+		return str('sudo adb -s {} shell input keyevent 22'.format(udid))
 	Command = Command()
 	if udid != None:
 		runCommand(Command)

@@ -1,0 +1,38 @@
+import os
+import Android
+from PIL import Image
+import imageFeatures
+import PIL
+import random
+import time
+import psutil
+udid = 'VS990b1015c08'
+def TakeScreenshot():
+	basewidth = 750/10
+	picurl = Android.TakeScreenshot(udid)
+	img = Image.open(picurl)
+	area = (45, 337, 1375, 2150)
+	cropped_img = img.crop(area)
+	wpercent = (basewidth/float(cropped_img.size[0]))
+	hsize = int((float(cropped_img.size[1])*float(wpercent)))
+	cropped_img = cropped_img.resize((basewidth,hsize), PIL.Image.ANTIALIAS)
+	cropped_img.show()
+	time.sleep(2)
+	for proc in psutil.process_iter():
+		if proc.name() == "display":
+			proc.kill()
+	return picurl
+
+
+def Like():
+	Android.Scroll(udid, 23, 1300, 1350, 1100)
+def NotLike():
+	Android.Scroll(udid, 1350, 1100, 23, 1300)
+for i in range(100):
+	a = TakeScreenshot()
+	print(a)
+	a = imageFeatures.GrabAttractiveness(a)
+	if  a > 60:
+		Like()
+	else:
+		NotLike()
