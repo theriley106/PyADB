@@ -11,7 +11,6 @@ for i in sys.argv:
 	command = command + i + ' '
 command = command.lower()
 if 'adb' in str(command).lower():
-	
 	command = command.replace('adb', 'sudo adb -s UDID')
 
 

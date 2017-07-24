@@ -6,7 +6,6 @@ import PIL
 import random
 import time
 import psutil
-udid = 'VS990b1015c08'
 def TakeScreenshot():
 	basewidth = 750/10
 	picurl = Android.TakeScreenshot(udid)
