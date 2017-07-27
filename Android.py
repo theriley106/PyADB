@@ -10,6 +10,30 @@ sys.setdefaultencoding("utf-8")
 global Elevated
 Elevated = True
 
+def click(text=None, resource-id=None, node_class=None, package=None, content-desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long-clickable=None, password=None, selected=None, bounds=None):
+	for item in itemlist:
+		ResourceID = item.attributes['resource-id'].value
+		Class = item.attributes['class'].value
+		Text = item.attributes['text'].value
+		Package = item.attributes['package'].value
+		Description = item.attributes['content-desc'].value
+		Clickable = item.attributes['clickable'].value
+		Checkable = item.attributes['checkable'].value
+		Checked = item.attributes['checked'].value
+		Enabled = item.attributes['enabled'].value
+		Focused = item.attributes['focused'].value
+		Focusable = item.attributes['focusable'].value
+		Scrollable = item.attributes['scrollable'].value
+		LongClick = item.attributes['long-clickable'].value
+		Password = item.attributes['password'].value
+		Selected = item.attributes['selected'].value
+		TopX = GetBounds(item.attributes['bounds'].value)[0]
+		TopY = GetBounds(item.attributes['bounds'].value)[1]
+		BottomX = GetBounds(item.attributes['bounds'].value)[2]
+		BottomY = GetBounds(item.attributes['bounds'].value)[3]
+		
+
+
 def MultiCommand(command):
 	commands = []
 	if 'None' in str(command):
