@@ -4,6 +4,7 @@ from xml.dom import minidom
 import sys
 import time
 import Pickling
+import re
 import threading
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -11,6 +12,10 @@ global Elevated
 Elevated = True
 
 def click(text=None, resource-id=None, node_class=None, package=None, content-desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long-clickable=None, password=None, selected=None, bounds=None):
+	if text != None:
+		textonscreen = re.findall('\stext="(\w+)"', str(a))
+	if resource-id != None:
+		resourceidscreen = re.findall('id="(\w+)"', str(a))
 	for item in itemlist:
 		ResourceID = item.attributes['resource-id'].value
 		Class = item.attributes['class'].value
