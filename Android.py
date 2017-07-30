@@ -5,38 +5,76 @@ import sys
 import time
 import Pickling
 import re
+import operator
 import threading
 reload(sys)
 sys.setdefaultencoding("utf-8")
 global Elevated
 Elevated = True
 
-def click(text=None, resource-id=None, node_class=None, package=None, content-desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long-clickable=None, password=None, selected=None, bounds=None):
-	if text != None:
-		textonscreen = re.findall('\stext="(\w+)"', str(a))
-	if resource-id != None:
-		resourceidscreen = re.findall('id="(\w+)"', str(a))
-	for item in itemlist:
-		ResourceID = item.attributes['resource-id'].value
-		Class = item.attributes['class'].value
-		Text = item.attributes['text'].value
-		Package = item.attributes['package'].value
-		Description = item.attributes['content-desc'].value
-		Clickable = item.attributes['clickable'].value
-		Checkable = item.attributes['checkable'].value
-		Checked = item.attributes['checked'].value
-		Enabled = item.attributes['enabled'].value
-		Focused = item.attributes['focused'].value
-		Focusable = item.attributes['focusable'].value
-		Scrollable = item.attributes['scrollable'].value
-		LongClick = item.attributes['long-clickable'].value
-		Password = item.attributes['password'].value
-		Selected = item.attributes['selected'].value
-		TopX = GetBounds(item.attributes['bounds'].value)[0]
-		TopY = GetBounds(item.attributes['bounds'].value)[1]
-		BottomX = GetBounds(item.attributes['bounds'].value)[2]
-		BottomY = GetBounds(item.attributes['bounds'].value)[3]
-		
+def returnList(udid, text=None, resource_id=None, class_name=None, index_num=None, package=None, content_desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long_clickable=None, password=None, selected=None, bounds=None):
+	filename = GrabUiAutomator(udid)
+	xmldoc = minidom.parse(filename)
+	itemlist = xmldoc.getElementsByTagName('node')
+	ListOfBounds = {}
+	PreviousCorrect = 0
+	for i in range(len(itemlist)):
+		Correct = 0
+		if text != None:
+			if str(text) == itemlist[i].attributes['text'].value:
+				Correct += 1
+		if class_name != None:
+			if str(class_name) == itemlist[i].attributes['class'].value:
+				Correct += 1
+		if index_num != None:
+			if str(index_num) == itemlist[i].attributes['index'].value:
+				Correct += 1
+		if resource_id != None:
+			if str(resource_id) == itemlist[i].attributes['resource-id'].value:
+				Correct += 1
+		if package != None:
+			if str(package) == itemlist[i].attributes['package'].value:
+				Correct += 1
+		if content_desc != None:
+			if str(content_desc) == itemlist[i].attributes['content-desc'].value:
+				Correct += 1
+		if checkable != None:
+			if str(checkable) == itemlist[i].attributes['checkable'].value:
+				Correct += 1
+		if checked != None:
+			if str(checked) == itemlist[i].attributes['checked'].value:
+				Correct += 1
+		if clickable != None:
+			if str(clickable) == itemlist[i].attributes['clickable'].value:
+				Correct += 1
+		if enabled != None:
+			if str(enabled) == itemlist[i].attributes['enabled'].value:
+				Correct += 1
+		if focusable != None:
+			if str(focusable) == itemlist[i].attributes['focusable'].value:
+				Correct += 1
+		if focused != None:
+			if str(focused) == itemlist[i].attributes['focused'].value:
+				Correct += 1
+		if scrollable != None:
+			if str(scrollable) == itemlist[i].attributes['scrollable'].value:
+				Correct += 1
+		if long_clickable != None:
+			if str(long_clickable) == itemlist[i].attributes['long-clickable'].value:
+				Correct += 1
+		if password != None:
+			if str(password) == itemlist[i].attributes['password'].value:
+				Correct += 1
+		if selected != None:
+			if str(selected) == itemlist[i].attributes['selected'].value:
+				Correct += 1
+		if Correct > 0 and Correct > PreviousCorrect:
+			Bounds = itemlist[i].attributes['bounds'].value
+		PreviousCorrect = Correct
+	Bounds = GetBounds(Bounds)
+	InputRandomBound(udid, Bounds)
+	return Bounds
+
 
 
 def MultiCommand(command):
@@ -474,7 +512,7 @@ def SearchForMultiButtons(udid, listofbuttons):
 	CurrentScreen = XMLtoList(File)
 	for parts in CurrentScreen:
 		for buttons in listofbuttons:
-			ofr part in parts:
+			for part in parts:
 				if str(part) == str(buttons):
 					bounds = parts[-4:]
 					InputRandomBound(udid, bounds)
