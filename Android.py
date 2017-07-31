@@ -307,44 +307,6 @@ def LoadP(udid, filename):
 					PickleResult.remove(Dic)
 					Screen = []
 
-def UiAutomatorToDict(udid):
-	information = []
-	SavedFile = 'XML/' + str(random.randint(99999,100000000)) + '.xml'
-	Command = "sudo adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
-	runCommand(Command)
-	xmldoc = minidom.parse(SavedFile)
-	itemlist = xmldoc.getElementsByTagName('node')
-	for item in itemlist:
-		try:
-			xml = {
-				'Index': item.attributes['index'].value, 
-				'ResourceID': item.attributes['resource-id'].value, 
-				'Class': item.attributes['class'].value, 
-				'Text': item.attributes['text'].value, 
-				'Package': item.attributes['package'].value, 
-				'Description': item.attributes['content-desc'].value, 
-				'Clickable': item.attributes['clickable'].value, 
-				'Checkable': item.attributes['checkable'].value, 
-				'Checked': item.attributes['checked'].value, 
-				'Enabled': item.attributes['enabled'].value, 
-				'Focused': item.attributes['focused'].value, 
-				'Focusable': item.attributes['focusable'].value, 
-				'Scrollable': item.attributes['scrollable'].value, 
-				'LongClick': item.attributes['long-clickable'].value, 
-				'Password': item.attributes['password'].value, 
-				'Selected': item.attributes['selected'].value, 
-				'TopX': GetBounds(item.attributes['bounds'].value)[0], 
-				'TopY': GetBounds(item.attributes['bounds'].value)[1], 
-				'BottomX': GetBounds(item.attributes['bounds'].value)[2], 
-				'BottomY': GetBounds(item.attributes['bounds'].value)[3]
-			}
-			xml['Bounds'] = [xml["TopX"], xml["TopY"], xml["BottomX"], xml["BottomY"]]
-			xml["Coordinate"] = [random.randint(xml['TopX'], xml['BottomX']), random.randint(xml['TopY'], xml['BottomY'])]
-			information.append(xml)
-		except:
-			print(item)
-	os.remove(SavedFile)
-	return information
 def get_num(x):
 	return int(''.join(ele for ele in x if ele.isdigit()))
 def GetBounds(tt):
@@ -370,71 +332,6 @@ def LoadingScreen(udid):
 			if result == 'com.android.vending:id/downloading_bytes':
 				found = True
 	return found
-
-def UiAutomatorToList(udid):
-	try:
-		information = []
-		SavedFile = 'XML/' + str(random.randint(99999,100000000)) + '.xml'
-		Command = "sudo adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') {} > t.txt".format(udid, udid, SavedFile)
-		runCommand(Command)
-		xmldoc = minidom.parse(SavedFile)
-		itemlist = xmldoc.getElementsByTagName('node')
-		for item in itemlist:
-			ResourceID = item.attributes['resource-id'].value
-			Class = item.attributes['class'].value
-			Text = item.attributes['text'].value
-			Package = item.attributes['package'].value
-			Description = item.attributes['content-desc'].value
-			Clickable = item.attributes['clickable'].value
-			Checkable = item.attributes['checkable'].value
-			Checked = item.attributes['checked'].value
-			Enabled = item.attributes['enabled'].value
-			Focused = item.attributes['focused'].value
-			Focusable = item.attributes['focusable'].value
-			Scrollable = item.attributes['scrollable'].value
-			LongClick = item.attributes['long-clickable'].value
-			Password = item.attributes['password'].value
-			Selected = item.attributes['selected'].value
-			TopX = GetBounds(item.attributes['bounds'].value)[0]
-			TopY = GetBounds(item.attributes['bounds'].value)[1]
-			BottomX = GetBounds(item.attributes['bounds'].value)[2]
-			BottomY = GetBounds(item.attributes['bounds'].value)[3]
-			information.append([ResourceID, Class, Text, Package, Description, Clickable, Checkable, Checked, Enabled, Focused, Focusable, Scrollable, LongClick, Password, Selected, TopX, TopY, BottomX, BottomY])
-	except BaseException as exp:
-		print(exp)
-	try:
-		os.remove(SavedFile)
-		return information
-	except BaseException as exp:
-		print(exp)
-		pass
-def XMLtoList(uiautomatorfile):
-	#returns a list of lists
-	information = []
-	xmldoc = minidom.parse(uiautomatorfile)
-	itemlist = xmldoc.getElementsByTagName('node')
-	for item in itemlist:
-		ResourceID = item.attributes['resource-id'].value
-		Class = item.attributes['class'].value
-		Text = item.attributes['text'].value
-		Package = item.attributes['package'].value
-		Description = item.attributes['content-desc'].value
-		Clickable = item.attributes['clickable'].value
-		Checkable = item.attributes['checkable'].value
-		Checked = item.attributes['checked'].value
-		Enabled = item.attributes['enabled'].value
-		Focused = item.attributes['focused'].value
-		Focusable = item.attributes['focusable'].value
-		Scrollable = item.attributes['scrollable'].value
-		LongClick = item.attributes['long-clickable'].value
-		Password = item.attributes['password'].value
-		Selected = item.attributes['selected'].value
-		TopX = GetBounds(item.attributes['bounds'].value)[0]
-		TopY = GetBounds(item.attributes['bounds'].value)[1]
-		BottomX = GetBounds(item.attributes['bounds'].value)[2]
-		BottomY = GetBounds(item.attributes['bounds'].value)[3]
-		information.append([ResourceID, Class, Text, Package, Description, Clickable, Checkable, Checked, Enabled, Focused, Focusable, Scrollable, LongClick, Password, Selected, TopX, TopY, BottomX, BottomY])
-	return information
 
 def InputRandomBound(udid, Bounds):
 	A = str(random.randint(Bounds[1], Bounds[3]))
