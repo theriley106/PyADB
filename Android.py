@@ -354,8 +354,8 @@ def Rotate(udid):
 	runCommand('sudo adb -s {} shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0'.format(udid))
 def ForceClose(udid, app):
 	runCommand('sudo adb -s {} shell am force-stop {}'.format(udid, app))
-def SetBrightness(udid):
-	runCommand('sudo adb -s {} shell settings put system screen_brightness 0'.format(udid))
+def SetBrightness(udid, brightness):
+	runCommand('sudo adb -s {} shell settings put system screen_brightness {}'.format(udid, brightness))
 def KeycodePower(udid):
 	Command = 'sudo adb -s ' + udid + " shell input keyevent 26"
 	runCommand(str(Command))
