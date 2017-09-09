@@ -16,9 +16,9 @@ def ForceClose(udid, app):
 
 while True:
 	time.sleep(.5)
-    input_state = GPIO.input(24)
-    if input_state == False:
-    	break
+	input_state = GPIO.input(24)
+	if input_state == False:
+		break
 a = Android.ConnectedDevices()[0]
 ForceClose(a, 'com.robinhood.android')
 time.sleep(1)
