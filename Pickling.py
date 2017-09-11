@@ -1,4 +1,5 @@
 import pickle
+
 def DictionarySave(filename, dictionary):
 	r = []
 	#file .p
