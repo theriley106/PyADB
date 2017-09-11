@@ -10,6 +10,7 @@ global Elevated
 Elevated = True
 #set if you'd like to use to sudo
 
+
 def runCommand(command):
 	if Elevated == True:
 		os.system('sudo {}'.format(command))
