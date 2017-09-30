@@ -77,6 +77,13 @@ def closeKeyboard(udid):
 		runCommand('adb -s {} shell input keyevent 111'.format(udid))
 		time.sleep(1)
 
+def grabText(udid, contains):
+	closeKeyboard(udid)
+	filename = GrabUiAutomator(udid)
+	for items in open(filename, 'r').read().split('<node '):
+		if str(contains) in str(items):
+			return str(items).partition('text="')[2].partition('" resource')[0]
+
 def click(udid, addx=0, addy=0, resultNum=None, text=None, resource_id=None, class_name=None, index_num=None, package=None, content_desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long_clickable=None, password=None, selected=None, bounds=None):
 	closeKeyboard(udid)
 	filename = GrabUiAutomator(udid)
