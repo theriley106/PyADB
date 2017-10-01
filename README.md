@@ -2,6 +2,9 @@
 
 ## Multi-Device Android Automation Using Python
 
+[![N|Solid](android.png)](#)
+
+
 
 Python wrapper for the [Android Device Bridge](https://developer.android.com/studio/command-line/adb.html) that allows for multiple devices to be connected simultaneously.  
 
