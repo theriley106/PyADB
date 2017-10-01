@@ -84,8 +84,10 @@ def grabText(udid, contains):
 		if str(contains) in str(items):
 			return str(items).partition('text="')[2].partition('" resource')[0]
 
-def click(udid, addx=0, addy=0, resultNum=None, text=None, resource_id=None, class_name=None, index_num=None, package=None, content_desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long_clickable=None, password=None, selected=None, bounds=None):
+def click(udid, ss=False, addx=0, addy=0, resultNum=None, text=None, resource_id=None, class_name=None, index_num=None, package=None, content_desc=None, checkable=None, checked=None, clickable=None, enabled=None, focusable=None, focused=None, scrollable=None, long_clickable=None, password=None, selected=None, bounds=None):
 	closeKeyboard(udid)
+	if ss != False:
+		TakeScreenshot(udid)
 	filename = GrabUiAutomator(udid)
 	xmldoc = minidom.parse(filename)
 	itemlist = xmldoc.getElementsByTagName('node')
