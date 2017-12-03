@@ -1,5 +1,5 @@
 import os
-import Android
+import interactions
 from PIL import Image
 import imageFeatures
 import PIL
@@ -8,7 +8,7 @@ import time
 import psutil
 def TakeScreenshot():
 	basewidth = 750/10
-	picurl = Android.TakeScreenshot(udid)
+	picurl = interactions.TakeScreenshot(udid)
 	img = Image.open(picurl)
 	area = (45, 337, 1375, 2150)
 	cropped_img = img.crop(area)
@@ -24,9 +24,9 @@ def TakeScreenshot():
 
 
 def Like():
-	Android.Scroll(udid, 23, 1300, 1350, 1100)
+	interactions.Scroll(udid, 23, 1300, 1350, 1100)
 def NotLike():
-	Android.Scroll(udid, 1350, 1100, 23, 1300)
+	interactions.Scroll(udid, 1350, 1100, 23, 1300)
 for i in range(100):
 	a = TakeScreenshot()
 	print(a)
