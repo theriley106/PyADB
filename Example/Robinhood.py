@@ -15,19 +15,19 @@ while True:
 	input_state = GPIO.input(24)
 	if input_state == False:
 		break
-		
-a = interactions.ConnectedDevices()[0]
-interactions.ForceClose(a, 'com.robinhood.android')
+
+phoneID = interactions.ConnectedDevices()[0]
+interactions.ForceClose(phoneID, 'com.robinhood.android')
 time.sleep(1)
-interactions.StartApplication(a, 'com.robinhood.android')
+interactions.StartApplication(phoneID, 'com.robinhood.android')
 time.sleep(2)
-interactions.Scroll(a, 10, 1000, 10, 400)
-interactions.GrabUiAutomator(a)
-interactions.click(a, text="TSLA")
+interactions.Scroll(phoneID, 10, 1000, 10, 400)
+interactions.GrabUiAutomator(phoneID)
+interactions.click(phoneID, text="TSLA")
 time.sleep(3)
-interactions.GrabUiAutomator(a)
-interactions.click(a, text="BUY")
+interactions.GrabUiAutomator(phoneID)
+interactions.click(phoneID, text="BUY")
 time.sleep(2)
-interactions.InputText(a, '10000')
-interactions.GrabUiAutomator(a)
-interactions.click(a, resource_id="com.robinhood.android:id/review_order_btn")
+interactions.InputText(phoneID, '10000')
+interactions.GrabUiAutomator(phoneID)
+interactions.click(phoneID, resource_id="com.robinhood.android:id/review_order_btn")
