@@ -283,3 +283,6 @@ def InputText(udid, text, delay=False):
 def turnDownVolume(udid):
 	for i in range(10):
 		runCommand('sudo adb -s {} shell input keyevent 25'.format(udid))
+
+def ClearCache(udid, app):
+	runCommand('sudo adb -s {} shell pm clear {}'.format(udid, app))
