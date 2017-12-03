@@ -296,3 +296,8 @@ def ForceClose(udid, app):
 
 def StartApplication(udid, app):
 	runCommand("sudo adb -s {} shell monkey -p {} -c android.intent.category.LAUNCHER 1".format(udid, app))
+
+def resetApplication(udid, app):
+	if app in str(currentApps(udid)):
+		ForceClose(udid, app)
+	runCommand("sudo adb -s {} shell monkey -p {} -c android.intent.category.LAUNCHER 1".format(udid, app))
