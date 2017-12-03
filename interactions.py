@@ -279,3 +279,7 @@ def InputText(udid, text, delay=False):
 		for letters in text:
 			runCommand('adb -s {} shell input text {}'.format(udid, letters))
 			time.sleep(random.randint(10, 30) * .01)
+
+def turnDownVolume(udid):
+	for i in range(10):
+		runCommand('sudo adb -s {} shell input keyevent 25'.format(udid))
