@@ -6,6 +6,7 @@ import PIL
 import random
 import time
 import psutil
+
 def TakeScreenshot():
 	basewidth = 750/10
 	picurl = interactions.TakeScreenshot(udid)
@@ -25,8 +26,10 @@ def TakeScreenshot():
 
 def Like():
 	interactions.Scroll(udid, 23, 1300, 1350, 1100)
+
 def NotLike():
 	interactions.Scroll(udid, 1350, 1100, 23, 1300)
+
 for i in range(100):
 	a = TakeScreenshot()
 	print(a)
