@@ -16,6 +16,10 @@ def CurrentApp(udid):
 	app = UiAutomatorToList(udid)[0][3]
 	return app
 
+def currentApps(device):
+	return getResponse('adb -s {} shell dumpsys activity'.format(device))
+
+
 def Scroll(udid, sx, sy, ex, ey, Delay=None):
 	if Delay == None:
 		runCommand('sudo adb -s {} shell input swipe {} {} {} {}'.format(udid, sx, sy, ex, ey))
@@ -55,7 +59,7 @@ def TakeScreenshot(udid):
 
 def RebootDevice(udid):
 	timeout = time.time() + 60*3
-	runCommand('sudo adb -s {} reboot'.format(udid))
+	runCommandcu('sudo adb -s {} reboot'.format(udid))
 	while CheckConnected(udid) == False:
 		time.sleep(5)
 		if time.time() > timeout:
