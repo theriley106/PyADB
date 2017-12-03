@@ -22,6 +22,12 @@ def Scroll(udid, sx, sy, ex, ey, Delay=None):
 	else:
 		runCommand('sudo adb -s {} shell input swipe {} {} {} {} {}'.format(udid, sx, sy, ex, ey, Delay))
 
+def grabScreenResolution(udid):
+	a = getResponse('sudo adb -s {} shell dumpsys window | grep "mUnrestrictedScreen"'.format(udid))
+	a = a.partition(") ")[2]
+	a, b = a.split("x")
+	return [int(a), int(b)]
+
 def ConnectedDevices(sudo=None):
 	connected = []
 	Command = 'adb kill-server'
@@ -68,6 +74,11 @@ def GrabUiAutomator(udid):
 def getResponse(command):
 	os.system('{} > tmp'.format(command))
 	return open('tmp', 'r').read()
+
+def closeKeyboard(udid):
+	if 'mInputShown=true' in str(getResponse('adb -s {} shell dumpsys input_method | grep mInputShown'.format(udid))):
+		runCommand('adb -s {} shell input keyevent 111'.format(udid))
+		time.sleep(1)
 
 def get_num(x):
 	return int(''.join(ele for ele in x if ele.isdigit()))
@@ -259,7 +270,7 @@ def runCommand(command, forcesudo=False):
 	else:
 		os.system('{}'.format(command))
 
-def InputText(udid, text, delay=True):
+def InputText(udid, text, delay=False):
 	if delay != True:
 		text = str(text).replace("\n", " ")
 		text = str(text).replace(' ', '%s')
