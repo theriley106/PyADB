@@ -290,3 +290,6 @@ def turnDownVolume(udid):
 
 def ClearCache(udid, app):
 	runCommand('sudo adb -s {} shell pm clear {}'.format(udid, app))
+
+def ForceClose(udid, app):
+	runCommand('sudo adb -s {} shell am force-stop {}'.format(udid, app))
