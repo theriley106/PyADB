@@ -8,7 +8,7 @@ ELEVATED = False
 
 def Keycode(number, udid):
 	runCommand("sudo adb -s {} shell input keyevent {}".format(udid, number))
-	
+
 def InstallAPK(udid, apk):
 	runCommand('sudo adb -s {} install {}'.format(udid, apk))
 
@@ -51,8 +51,11 @@ def ConnectedDevices(sudo=None):
 	except:
 		return
 
-def TakeScreenshot(udid):
-	screenshot = str(udid) + '.png'
+def TakeScreenshot(udid, fileName=None):
+	if fileName == None:
+		screenshot = str(udid) + '.png'
+	else:
+		screenshot = fileName
 	Command = "sudo adb -s " + str(udid) + " shell screencap -p | sed 's/\r$//' > " + str(screenshot)
 	runCommand(str(Command))
 	return screenshot
