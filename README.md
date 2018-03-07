@@ -1,6 +1,6 @@
 # PyADB
 
-## [Using PyADB to Setup 50 Android Phones in less than a Minute](https://www.youtube.com/watch?v=OKAF0-ThbhY)
+## [[Video] Using PyADB to Automate 50 Android Phones Simultaneously](https://www.youtube.com/watch?v=OKAF0-ThbhY)
 
 ## Multi-Device Android Automation Using Python
 
